@@ -2,12 +2,13 @@ const { CronJob } = require('cron')
 const nodemailer = require('nodemailer')
 const fs = require('fs')
 
-const quotesPath = "./scemas/quotes.json"
-const mailsPath = "./scemas/mails.json"
+const quotesPath = "../scemas/quotes.json"
+const mailsPath = "../scemas/mails.json"
 
 
-const user = "YOUR_EMAIL"
-const pass = "YOUR_PASS"
+// hardcoded credentials
+const user = "cybergod.webprojects@gmail.com"
+const pass = "enkq eoxx volt jtmr"
 
 
 // if parameters not provided, will send notification at 10 A.M IST

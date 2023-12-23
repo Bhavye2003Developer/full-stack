@@ -3,31 +3,32 @@ const ejs = require('ejs');
 const utils = require('./utils')
 
 const app = express()
+const router = express.Router()
 
 app.set("view engine", "ejs")
-app.use(express.urlencoded({ extended: true })) // to parse body
-app.use(express.static('public'));
+router.use(express.urlencoded({ extended: true })) // to parse body
+router.use(express.static('public'));
 
-const hostname = "0.0.0.0"
 const PORT = 3000
+
 
 utils.startCronJob(
     {
         seconds: 0,
-        minutes: 30,
-        hour: 13, //0-23
+        minutes: 25,
+        hour: 15, //0-23
         executor: function () {
             utils.sendMail()
         }
     }
 )
 
-app.get("/subscribe", (req, res) => {
+router.get(`/subscribe`, (req, res) => {
     res.render('index')
 })
 
 
-app.post("/subscribe", (req, res) => {
+router.post("/subscribe", (req, res) => {
     const email = req.body.email
     if (email) {
         utils.addMail(email).then((code) => {
@@ -47,6 +48,13 @@ app.post("/subscribe", (req, res) => {
 })
 
 
-app.listen(PORT, hostname, () => {
+router.get("/", (req, res) => {
+    res.redirect("/subscribe")
+})
+
+
+app.use("/", router)
+
+app.listen(PORT, () => {
     console.log(`Listening at port ${PORT}...`)
 })
