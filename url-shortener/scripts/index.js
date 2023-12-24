@@ -1,4 +1,3 @@
-import ejs from 'ejs'
 import express from 'express'
 import { UrlDB } from './utils/connectDB.js'
 
@@ -36,6 +35,7 @@ app.get('/:shortendUrl', (req, res) => {
     urlDB.getOriginalUrl(shortendURL).then(urlObj => {
         const originalURL = urlObj?.originalURL
         if (originalURL) {
+            urlDB.updateClicks(originalURL)
             return res.redirect(originalURL)
         }
         return res.status(404).json({

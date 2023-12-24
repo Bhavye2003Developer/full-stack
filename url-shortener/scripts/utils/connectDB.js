@@ -4,11 +4,11 @@ import 'dotenv/config'
 
 const UrlSchema = new mongoose.Schema({
     originalURL: String,
-    shortendURL: String
+    shortendURL: String,
+    numberOfClicks: { type: Number, default: 0 }
 })
 
 const Url = mongoose.model('Url', UrlSchema)
-
 
 // create .env file in root directory and specify DB_PATH="YOUR_DB_PATH"
 const DB_PATH = process.env.DB_PATH || "YOUR_DB_PATH"
@@ -50,6 +50,15 @@ class UrlDB {
         }).exec()
     }
 
+    async updateClicks(originalURL) {
+        const urlObj = await Url.findOne({
+            originalURL
+        }).exec()
+        if (urlObj) {
+            const numberOfClicks = urlObj?.numberOfClicks + 1
+            await Url.findOneAndUpdate({ originalURL }, { numberOfClicks })
+        }
+    }
 
 
     generateShortUrl(originalURL) {
