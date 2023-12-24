@@ -3,7 +3,7 @@
 const fs = require('fs')
 const { exec } = require('node:child_process');
 
-const folder = "../"
+const folder = "../../"
 
 let relativePath;
 
