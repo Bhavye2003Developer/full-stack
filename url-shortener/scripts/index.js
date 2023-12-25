@@ -29,6 +29,68 @@ app.post('/short', (req, res) => {
     })
 })
 
+
+app.post("/login", (req, res) => {
+    const email = req.body.email
+    const password = req.body.password
+
+    if (email && password) {
+        urlDB.authenticateUser(email, password).then(token => {
+            if (token) {
+                res.status(200).json({
+                    token: token,
+                    msg: "Login successfull"
+                })
+            }
+            else {
+                res.status(401).json({
+                    token: null,
+                    msg: "Invalid email/password"
+                })
+            }
+        })
+    }
+    else {
+        console.log("email/password not filled")
+        res.redirect("/login")
+    }
+})
+
+app.get("/login", (req, res) => {
+    res.render("login")
+})
+
+
+app.get("/signup", (req, res) => {
+    res.render("signup")
+})
+
+app.post("/signup", (req, res) => {
+    const username = req.body.username
+    const email = req.body.email
+    const password = req.body.password
+
+    if (username && email && password) {
+        urlDB.newUser(username, email, password).then(({ msg, statusCode }) => {
+            // res.status(201).json({
+            //     msg
+            // })
+            console.log(msg)
+            if (statusCode) {
+                res.redirect("/login")
+            }
+            else {
+                res.redirect("/signup")
+            }
+        })
+    }
+    else {
+        res.status(401).json({
+            msg: "body is invalid"
+        })
+    }
+})
+
 app.get('/:shortendUrl', (req, res) => {
     const shortendURL = req.params.shortendUrl
 

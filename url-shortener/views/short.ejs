@@ -11,6 +11,16 @@
 <body class="bg-gray-100 flex items-center justify-center h-screen">
 
     <div class="bg-white p-8 rounded-lg shadow-md w-96">
+        <!-- Login Button -->
+        <div class="flex justify-end">
+            <form action="/login" method="get">
+                <button
+                    class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:ring focus:border-blue-300">
+                    Login
+                </button>
+            </form>
+        </div>
+
         <h1 class="text-2xl font-semibold mb-4">URL Shortener</h1>
 
         <!-- Form -->
@@ -25,7 +35,6 @@
                 class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:ring focus:border-blue-300"
                 value="Shorten URL">
         </form>
-
 
         <% if (locals.shortendUrl) { %>
             <!-- Shortened URL -->
